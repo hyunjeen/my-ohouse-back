@@ -6,9 +6,9 @@ import { NODE_ENV } from '@/constants/app.constants';
 import { DatabaseModule } from '@/database/database.module';
 import { AppController } from '@/domain/app/app.controller';
 import { AppService } from '@/domain/app/app.service';
-import { AuthModule } from '@/domain/auth/auth.module';
 import { UsersModule } from '@/domain/users/users.module';
 import { SharedModule } from '@/domain/shared';
+import { AuthModule } from '@/domain/auth/auth.module';
 
 @Module({
   imports: [

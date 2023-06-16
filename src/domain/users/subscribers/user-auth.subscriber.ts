@@ -4,30 +4,26 @@ import {
   InsertEvent,
   UpdateEvent,
 } from 'typeorm';
-import { UserAuthEntity } from '@/domain/users/entities/user-auth.entity';
-import { AuthenticationProvider } from '@/domain/auth/provider/authentication.provider';
+import { Utils } from '@/utils';
+import { UserEntity } from '@/domain/users/entities/user.entity';
 
 @EventSubscriber()
 export class UserAuthSubscriber
-  implements EntitySubscriberInterface<UserAuthEntity>
+  implements EntitySubscriberInterface<UserEntity>
 {
   listenTo() {
-    return UserAuthEntity;
+    return UserEntity;
   }
 
-  beforeInsert(event: InsertEvent<UserAuthEntity>): void {
+  beforeInsert(event: InsertEvent<UserEntity>): void {
     if (event.entity.password) {
-      event.entity.password = AuthenticationProvider.generateHash(
-        event.entity.password,
-      );
+      event.entity.password = Utils.generateHash(event.entity.password);
     }
   }
 
-  beforeUpdate(event: UpdateEvent<UserAuthEntity>): void {
+  beforeUpdate(event: UpdateEvent<UserEntity>): void {
     if (event.entity?.password !== event.databaseEntity?.password) {
-      event.entity.password = AuthenticationProvider.generateHash(
-        event.entity.password,
-      );
+      event.entity.password = Utils.generateHash(event.entity.password);
     }
   }
 }
