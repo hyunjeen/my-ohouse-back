@@ -1,4 +1,4 @@
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -7,13 +7,19 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
 
 export abstract class AbstractEntity {
   @PrimaryGeneratedColumn()
   @Exclude()
   public id: number;
 
+  @ApiProperty({
+    description: 'uuid',
+    example: 'eb22317-8613-4efa-9d75-dbdfd2b5cb96',
+  })
   @Column()
+  @Expose()
   @Generated('uuid')
   public uuid: string;
 

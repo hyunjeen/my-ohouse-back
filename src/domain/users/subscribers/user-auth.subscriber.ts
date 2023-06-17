@@ -25,5 +25,9 @@ export class UserAuthSubscriber
     if (event.entity?.password !== event.databaseEntity?.password) {
       event.entity.password = Utils.generateHash(event.entity.password);
     }
+
+    if (event.entity?.refreshToken) {
+      event.entity.refreshToken = Utils.generateHash(event.entity.refreshToken);
+    }
   }
 }
