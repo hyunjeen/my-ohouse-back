@@ -5,6 +5,11 @@ import retry from 'async-retry';
 import { v4 as uuid } from 'uuid';
 import * as path from 'path';
 import pako from 'pako';
+type FileUploadResult = {
+  fileName: string;
+  publicUrl?: string;
+  reason?: string;
+};
 
 @Injectable()
 export class StorageService {
@@ -77,8 +82,3 @@ export class StorageService {
     });
   }
 }
-type FileUploadResult = {
-  fileName: string;
-  publicUrl?: string;
-  reason?: string;
-};

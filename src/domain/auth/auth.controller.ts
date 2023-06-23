@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from '@/domain/auth/auth.service';
 import { CreateUserDto } from '@/domain/users/dto/createUser.dto';
 import {
@@ -16,6 +16,9 @@ import { SignInDto } from '@/domain/auth/dto/signIn.dto';
 import { SignInResponseDto } from '@/domain/auth/dto/response/signInResponse.dto';
 import { NotValidatePasswordException } from '@/exception/not-validate-password.exception';
 import { NotFoundUserException } from '@/exception/not-found-user.exception';
+import { JwtGuard } from '@/guard/jwt.guard';
+import { getUser } from '@/decorators/getUser.decorator';
+import { UserEntity } from '@/domain/users/entities/user.entity';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -56,6 +59,21 @@ export class AuthController {
     const accessToken = this.tokenService.createToken(_user.uuid);
     this.setRefreshTokenCookie(res, refreshToken);
     return { user: _user, accessToken: accessToken };
+  }
+
+  @ApiResponse({
+    description: '성공',
+  })
+  @UseGuards(JwtGuard)
+  @ApiOperation({ summary: '로그아웃' })
+  @Post('/logout')
+  public async logout(
+    @getUser() user: UserEntity,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<string> {
+    await this.authService.logout(user.uuid);
+    res.cookie('refresh_token', '', { maxAge: 0 });
+    return 'ok';
   }
 
   private setRefreshTokenCookie(res: Response, refreshToken: string) {

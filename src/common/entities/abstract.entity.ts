@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Generated,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -19,6 +20,7 @@ export abstract class AbstractEntity {
     example: 'eb22317-8613-4efa-9d75-dbdfd2b5cb96',
   })
   @Column()
+  @Index({ unique: true })
   @Expose()
   @Generated('uuid')
   public uuid: string;

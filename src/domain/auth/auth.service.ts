@@ -45,6 +45,9 @@ export class AuthService {
   async signUp(createUserDto: CreateUserDto) {
     return await this.userService.createUser(createUserDto);
   }
+  async logout(userId: string) {
+    await this.userService.updateUserRefreshToken(userId, null);
+  }
   private validatePassword(password, dbPassword): boolean {
     return Utils.validateHash(password, dbPassword);
   }

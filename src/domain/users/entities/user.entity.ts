@@ -5,7 +5,7 @@ import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
-@Entity()
+@Entity('users')
 export class UserEntity extends AbstractEntity {
   @ApiProperty({
     example: '홍길동',
@@ -44,7 +44,7 @@ export class UserEntity extends AbstractEntity {
   @Expose()
   public role: RoleType;
 
-  @Column({ default: null })
+  @Column({ default: null, nullable: true })
   @Expose()
   public refreshToken: string;
 }

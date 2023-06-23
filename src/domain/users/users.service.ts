@@ -61,7 +61,7 @@ export class UsersService {
 
   async updateUserRefreshToken(
     uuid: string,
-    refreshToken: string,
+    refreshToken: string | null,
     queryRunner?: QueryRunner,
   ): Promise<void> {
     if (queryRunner) {

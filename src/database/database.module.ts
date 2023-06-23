@@ -19,7 +19,7 @@ import { NODE_ENV } from '@/constants/app.constants';
         database: configService.get<string>('MYSQL_DB'),
         entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         namingStrategy: new SnakeNamingStrategy(),
-        synchronize: configService.get('NODE_ENV') === NODE_ENV.DEVELOPMENT,
+        // synchronize: configService.get('NODE_ENV') === NODE_ENV.DEVELOPMENT,
         logging: configService.get('NODE_ENV') === NODE_ENV.DEVELOPMENT,
         extra: { charset: 'utf8mb4_unicode_ci' },
         subscribers: [UserAuthSubscriber],
