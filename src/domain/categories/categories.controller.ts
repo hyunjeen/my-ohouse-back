@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 
 @Controller('categories')
@@ -13,11 +13,11 @@ export class CategoriesController {
     return this.categoriesService.findAll();
   }
   @Post()
-  create() {
-    this.categoriesService.create();
+  create(@Body() data: { name: string }) {
+    return this.categoriesService.create(data.name);
   }
   @Post('sub')
-  createSub() {
-    this.categoriesService.createSub();
+  createSub(@Body() data: { uuid: string; name: string }) {
+    return this.categoriesService.createSub(data.uuid, data.name);
   }
 }

@@ -25,16 +25,24 @@ export class CategoriesService {
   async find(uuid: string) {
     return this.categoryRepository.findOne({ where: { uuid } });
   }
-  async create() {
-    const category = this.categoryRepository.create({ name: '의류' });
-    await this.categoryRepository.save(category);
+  async create(name: string) {
+    const category = this.categoryRepository.create({ name });
+    const result = await this.categoryRepository.save(category);
+    return result.uuid;
   }
 
-  async createSub() {
-    const category = await this.find('83857f3c-b8d4-4d09-bbe5-4f2460864a33');
+  async createSub(uuid: string, name: string) {
+    const category = await this.find(uuid);
     const subcategory = this.subcategoryRepository.create({
-      name: '바지',
+      name,
     });
-    await this.subcategoryRepository.save({ category, ...subcategory });
+    const result = await this.subcategoryRepository.save({
+      category,
+      ...subcategory,
+    });
+    return this.subcategoryRepository.find({
+      where: { uuid: result.uuid },
+      relations: ['category'],
+    });
   }
 }
